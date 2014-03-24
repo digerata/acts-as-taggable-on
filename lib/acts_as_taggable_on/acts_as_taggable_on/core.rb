@@ -342,8 +342,8 @@ module ActsAsTaggableOn::Taggable
 
     ##
     # Find existing tags or create non-existing tags
-    def load_tags(tag_list)
-      ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(tag_list)
+    def load_tags(tag_list, context)
+      ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(context, tag_list)
     end
 
     def save_tags
@@ -353,7 +353,7 @@ module ActsAsTaggableOn::Taggable
         tag_list = tag_list_cache_on(context).uniq
 
         # Find existing tags or create non-existing tags:
-        tags = load_tags(tag_list)
+        tags = load_tags(tag_list, context)
 
         # Tag objects for currently assigned tags
         current_tags = tags_on(context)

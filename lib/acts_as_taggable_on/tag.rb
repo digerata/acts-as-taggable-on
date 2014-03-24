@@ -66,7 +66,7 @@ module ActsAsTaggableOn
       end
     end
 
-    def self.find_or_create_all_with_like_by_name(*list)
+    def self.find_or_create_all_with_like_by_name(context, *list)
       list = Array(list).flatten
 
       return [] if list.empty?
@@ -77,7 +77,7 @@ module ActsAsTaggableOn
         comparable_tag_name = comparable_name(tag_name)
         existing_tag = existing_tags.detect { |tag| comparable_name(tag.name) == comparable_tag_name }
 
-        existing_tag || Tag.create(:name => tag_name)
+        existing_tag || Tag.create(:name => tag_name, :context => context)
       end
     end
 
