@@ -259,7 +259,9 @@ module ActsAsTaggableOn::Taggable
       variable_name = "@#{context.to_s.singularize}_list"
       if instance_variable_get(variable_name)
         instance_variable_get(variable_name)
-      elsif cached_tag_list_on(context) && self.class.caching_tag_list_on?(context)
+        # see: https://github.com/mbleigh/acts-as-taggable-on/issues/432#issuecomment-278981747
+        # we have caching on all our fields, so this is somewhat safe
+      elsif cached_tag_list_on(context)# && self.class.caching_tag_list_on?(context)
         instance_variable_set(variable_name, ActsAsTaggableOn::TagList.from(cached_tag_list_on(context)))
       else
         instance_variable_set(variable_name, ActsAsTaggableOn::TagList.new(tags_on(context).map(&:name)))
